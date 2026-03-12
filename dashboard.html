@@ -7,42 +7,64 @@
 </head>
 <body class="dashboard-body">
 
-    <header class="dashboard-header">
-        <h1>🌸 BVAssist Dashboard</h1>
-        <button class="logout-btn" onclick="logout()">Logout</button>
-    </header>
-    
+<header class="dashboard-header">
 
-
-    <div class="dashboard-container">
-
-        <div class="dash-card pastel-blue" onclick="goTo('timetable.html')">
-            📅 Timetable
-        </div>
-
-        <div class="dash-card pastel-purple" onclick="goTo('notifications.html')">
-    🔔 Notifications
+<div class="header-left">
+<img src="images/logo.png" class="uni-logo">
+<h1>BVAssist Student Dashboard</h1>
 </div>
 
-        <div class="dash-card pastel-green">
-            🗺 Campus Roadmap
-        </div>
-
-        <div class="dash-card pastel-yellow" onclick="goTo('handouts.html')">
-    📘 Handouts
+<div class="header-right">
+<button class="logout-btn" onclick="logout()">Logout</button>
 </div>
 
-<div class="dash-card pastel-lavender" onclick="goTo('results.html')">
-    📊 Results
-</div>
+</header>
 
+<section class="welcome-section">
+    <h2>Welcome to BVAssist</h2>
+    <p>Your centralized campus resource portal.</p>
+</section>
 
-        <div class="dash-card pastel-peach" onclick="goTo('feedback.html')">
-    📝 Feedback
-</div>
+<div class="dashboard-container">
 
+    <div class="dash-card pastel-blue" onclick="goTo('timetable.html')">
+        <span class="card-icon">📅</span>
+        <h3>Timetable</h3>
+        <p>View your class schedule</p>
     </div>
 
-    <script src="script.js"></script>
+    <div class="dash-card pastel-purple" onclick="goTo('notifications.html')">
+        <span class="card-icon">🔔</span>
+        <h3>Notifications</h3>
+        <p>Latest campus updates</p>
+    </div>
+
+    <div class="dash-card pastel-green">
+        <span class="card-icon">🗺</span>
+        <h3>Campus Roadmap</h3>
+        <p>Navigate around campus</p>
+    </div>
+
+    <div class="dash-card pastel-yellow" onclick="goTo('handouts.html')">
+        <span class="card-icon">📘</span>
+        <h3>Handouts</h3>
+        <p>Download course material</p>
+    </div>
+
+    <div class="dash-card pastel-lavender" onclick="goTo('results.html')">
+        <span class="card-icon">📊</span>
+        <h3>Results</h3>
+        <p>Check academic performance</p>
+    </div>
+
+    <div class="dash-card pastel-peach" onclick="goTo('feedback.html')">
+        <span class="card-icon">📝</span>
+        <h3>Feedback</h3>
+        <p>Share your suggestions</p>
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+
 </body>
-</html>

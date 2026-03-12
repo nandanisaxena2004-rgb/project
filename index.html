@@ -20,44 +20,83 @@
         </div>
     </div>
 
-    <!-- ===== NAVIGATION BAR ===== -->
+    <!-- ===== NAVBAR ===== -->
     <div class="navbar">
-        <a href="#">About Us</a>
-        <a href="#">Departments</a>
-        <a href="#">Admissions</a>
-        <a href="#">Library</a>
-        <a href="#">Examination</a>
-        <a href="#">Contact</a>
+        <a href="#">About BV Assist</a>
+        <a href="#">Notifications</a>
+        <a href="#">Portals</a>
+        <a href="#">Support</a>
     </div>
 
     <!-- ===== HERO SECTION ===== -->
-    <div class="hero">
-        <h1>Welcome to BV Assist</h1>
-        <p>A unified platform for students, faculty, and administration.</p>
+    <!-- ===== HERO SECTION ===== -->
+<div class="hero">
+    <div class="hero-overlay">
+        <h1>BV Assist – Campus Help System</h1>
+        <p>
+            A centralized digital platform for students, faculty, and administrators
+            to access all campus notifications and academic updates in one place.
+        </p>
     </div>
+</div>
 
-    <!-- ===== CONTENT SECTION ===== -->
+
+    <!-- ===== PORTAL SECTION ===== -->
     <div class="content">
-        <div class="card">
-            <h3>Student Portal</h3>
-            <p>View timetable, results, notifications, and handouts.</p>
+        <!-- Student -->
+<div class="flip-card" onclick="openStudentPortal()">
+    <div class="flip-card-inner">
+        <div class="flip-card-front">
+            <h3>🎓 Student Portal</h3>
+        </div>
+        <div class="flip-card-back">
+            <p>
+                View all academic notifications, updates,
+                and announcements from one place.
+            </p>
+        </div>
+    </div>
+</div>
+
+        <!-- Faculty -->
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <h3>👩‍🏫 Faculty Portal</h3>
+                </div>
+                <div class="flip-card-back">
+                    <p>
+                        Upload notices, share academic updates,
+                        and access student information easily.
+                    </p>
+                </div>
+            </div>
         </div>
 
-        <div class="card">
-            <h3>Faculty Portal</h3>
-            <p>Manage academic information and student interaction.</p>
+        <!-- Admin -->
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <h3>🏫 Admin Portal</h3>
+                </div>
+                <div class="flip-card-back">
+                    <p>
+                        Monitor, manage, and control all campus
+                        communications efficiently.
+                    </p>
+                </div>
+            </div>
         </div>
 
-        <div class="card">
-            <h3>Admin Portal</h3>
-            <p>Control data, feedback, and campus activities.</p>
-        </div>
     </div>
 
     <!-- ===== FOOTER ===== -->
     <div class="footer">
-        <p>© 2026 BV Assist – Campus Connect</p>
+        <p>© 2026 BV Assist | Centralized Campus Communication System</p>
     </div>
+
+    <!-- ===== JS ===== -->
+    <script src="script.js"></script>
 
 </body>
 </html>

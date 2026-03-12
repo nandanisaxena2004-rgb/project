@@ -1,16 +1,38 @@
 // =====================
 // AUTH PROTECTION
 // =====================
-if (
-    window.location.pathname.includes("dashboard.html") &&
-    localStorage.getItem("isLoggedIn") !== "true"
-) {
-    window.location.href = "login.html";
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const currentPage = window.location.pathname.split("/").pop();
+    const loggedIn = localStorage.getItem("isLoggedIn");
+    const user = localStorage.getItem("currentUser");
+
+    if (currentPage === "dashboard.html") {
+
+        if (loggedIn !== "true" || !user) {
+            window.location.href = "login.html";
+        }
+
+    }
+
+});
+// =====================
+// CLEAR SESSION ON INDEX PAGE
+// =====================
+
+const currentPage = window.location.pathname.split("/").pop();
+
+if (currentPage === "index.html") {
+    sessionStorage.removeItem("isLoggedIn");
+    sessionStorage.removeItem("currentUser");
 }
 
+
 // =====================
-// GENERAL NAVIGATION
+// GENERAL FUNCTIONS
 // =====================
+
 function goTo(page) {
     window.location.href = page;
 }
@@ -21,9 +43,6 @@ function logout() {
     window.location.href = "login.html";
 }
 
-// =====================
-// VIEW TOGGLING (LOGIN / FORGOT)
-// =====================
 function showForgot() {
     document.getElementById("login-view").style.display = "none";
     document.getElementById("forgot-view").style.display = "block";
@@ -34,140 +53,239 @@ function showLogin() {
     document.getElementById("login-view").style.display = "block";
 }
 
-// =====================
-// PASSWORD TOGGLE
-// =====================
 function togglePassword() {
     const passwordInput = document.getElementById("password");
-    if (!passwordInput) return;
 
-    passwordInput.type =
-        passwordInput.type === "password" ? "text" : "password";
+    if (passwordInput) {
+        passwordInput.type =
+            passwordInput.type === "password" ? "text" : "password";
+    }
 }
+
+function openStudentPortal() {
+
+    const loggedIn = localStorage.getItem("isLoggedIn");
+
+    if (loggedIn === "true") {
+        window.location.href = "dashboard.html";
+    } else {
+        window.location.href = "login.html";
+    }
+
+}
+
 
 // =====================
 // DOM READY
 // =====================
+
 document.addEventListener("DOMContentLoaded", function () {
 
     // =====================
-    // LOGIN LOGIC
-    // =====================
-    const loginForm = document.getElementById("login-form");
+// LOGIN
+// =====================
 
-    if (loginForm) {
-        loginForm.addEventListener("submit", function (e) {
-            e.preventDefault();
+const loginForm = document.getElementById("login-form");
 
-            const email = document.getElementById("email").value.trim();
-            const password = document.getElementById("password").value.trim();
-            const errorText = document.getElementById("login-error");
+if (loginForm) {
 
-            errorText.textContent = "";
+    loginForm.addEventListener("submit", function (e) {
 
-            if (!email || !password) {
-                errorText.textContent = "Please enter both email and password.";
-                return;
-            }
-
-            let users = JSON.parse(localStorage.getItem("users")) || [];
-
-            if (users.length === 0) {
-                errorText.textContent = "No account found. Please sign up first.";
-                return;
-            }
-
-            const user = users.find(u => u.email === email);
-
-            if (!user) {
-                errorText.textContent = "Account does not exist.";
-                return;
-            }
-
-            if (user.password !== password) {
-                errorText.textContent = "Incorrect password.";
-                return;
-            }
-
-            localStorage.setItem("isLoggedIn", "true");
-            localStorage.setItem("currentUser", JSON.stringify(user));
-            window.location.href = "dashboard.html";
-        });
-    }
-
-    // =====================
-    // FORGOT / RESET PASSWORD
-    // =====================
-    const forgotForm = document.getElementById("forgot-form");
-
-if (forgotForm) {
-    forgotForm.addEventListener("submit", function (e) {
         e.preventDefault();
 
-        const email = document.getElementById("forgot-email").value.trim();
-        const errorText = document.getElementById("forgot-error");
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+        const error = document.getElementById("login-error");
 
-        errorText.textContent = "";
+        error.textContent = "";
 
-        if (!email) {
-            errorText.textContent = "Please enter your registered email.";
+        // Email validation
+        if (!email.endsWith("@banasthali.in")) {
+            error.textContent =
+                "Please login using your official @banasthali.in email ID.";
             return;
         }
 
-        let users = JSON.parse(localStorage.getItem("users")) || [];
-        const userExists = users.some(u => u.email === email);
+        // Password validation (demo password)
+        const correctPassword = "bvassist123";
 
-        if (!userExists) {
-            errorText.textContent = "This email is not registered.";
+        if (password !== correctPassword) {
+            error.textContent = "Incorrect password.";
             return;
         }
 
-        // 🔗 BACKEND WILL HANDLE EMAIL SENDING
-        // Frontend responsibility ends here
+        // Login success
+        alert("Login successful");
 
-        errorText.style.color = "green";
-        errorText.textContent =
-            "Password reset link has been sent to your email.";
+        sessionStorage.setItem("isLoggedIn", "true");
+        sessionStorage.setItem("currentUser", email);
 
-        forgotForm.reset();
+        window.location.href = "dashboard.html";
+
     });
+
+}
+    // =====================
+// PREVENT BACK NAVIGATION AFTER LOGOUT
+// =====================
+
+window.history.pushState(null, null, window.location.href);
+
+window.onpopstate = function () {
+    window.history.pushState(null, null, window.location.href);
+};
+const page = window.location.pathname.split("/").pop();
+const loggedIn = sessionStorage.getItem("isLoggedIn");
+
+if (page === "dashboard.html" && loggedIn !== "true") {
+    window.location.href = "login.html";
+}
+if (page === "login.html" && loggedIn === "true") {
+    window.location.href = "dashboard.html";
+}
+function logout() {
+    sessionStorage.removeItem("isLoggedIn");
+    sessionStorage.removeItem("currentUser");
+    window.location.replace("login.html");
 }
 
+    // =====================
+    // SIGNUP
+    // =====================
 
-    // =====================
-    // SIGNUP LOGIC
-    // =====================
     const signupForm = document.getElementById("signup-form");
 
     if (signupForm) {
+
         signupForm.addEventListener("submit", function (e) {
+
             e.preventDefault();
 
-            const name = document.getElementById("signup-name").value.trim();
             const email = document.getElementById("signup-email").value.trim();
-            const password = document.getElementById("signup-password").value.trim();
             const role = document.getElementById("signup-role").value;
-            const errorText = document.getElementById("signup-error");
+            const error = document.getElementById("signup-error");
+
+            error.style.color = "red";
+            error.textContent = "";
+
+            if (role === "Student" && !email.endsWith("@banasthali.in")) {
+
+                error.textContent =
+                    "Students must use official @banasthali.in email ID.";
+
+                return;
+            }
+
+            alert("Signup successful");
+            signupForm.reset();
+
+        });
+
+    }
+
+
+    // =====================
+    // FORGOT PASSWORD
+    // =====================
+
+    const forgotForm = document.getElementById("forgot-form");
+
+    if (forgotForm) {
+
+        forgotForm.addEventListener("submit", function (e) {
+
+            e.preventDefault();
+
+            const email = document.getElementById("forgot-email").value.trim();
+            const errorText = document.getElementById("forgot-error");
 
             errorText.textContent = "";
 
-            if (!name || !email || !password || !role) {
-                errorText.textContent = "Please fill all required fields.";
+            if (!email) {
+
+                errorText.textContent = "Please enter your registered email.";
                 return;
+
             }
 
-            let users = JSON.parse(localStorage.getItem("users")) || [];
+            errorText.style.color = "green";
 
-            if (users.some(u => u.email === email)) {
-                errorText.textContent = "Account already exists.";
-                return;
-            }
+            errorText.textContent =
+                "Password reset link has been sent to your email.";
 
-            users.push({ name, email, password, role });
-            localStorage.setItem("users", JSON.stringify(users));
-
-            window.location.href = "login.html";
         });
+
+    }
+
+
+    // =====================
+    // STUDENT COURSE DISPLAY
+    // =====================
+
+    const email = sessionStorage.getItem("currentUser");
+
+    if (!email) return;
+
+    let course = "B.Tech CSE (AI) - Semester 5";
+
+    const courseElement = document.getElementById("student-course");
+
+    if (courseElement) {
+        courseElement.textContent = course;
     }
 
 });
+// =====================
+// SESSION TIMEOUT (15 minutes)
+// =====================
+
+let sessionTimer;
+
+function startSessionTimer() {
+
+    clearTimeout(sessionTimer);
+
+    sessionTimer = setTimeout(function () {
+
+        alert("Session expired due to inactivity. Please login again.");
+
+        sessionStorage.removeItem("isLoggedIn");
+        sessionStorage.removeItem("currentUser");
+
+        window.location.replace("login.html");
+
+    }, 15 * 60 * 1000); // 15 minutes
+
+}
+
+// Reset timer on user activity
+["click","mousemove","keypress","scroll"].forEach(function(event){
+
+    document.addEventListener(event, startSessionTimer);
+
+});
+
+// Start timer when page loads
+document.addEventListener("DOMContentLoaded", startSessionTimer);
+
+
+// =====================
+// SCROLL REVEAL
+// =====================
+
+function revealOnScroll() {
+
+    document.querySelectorAll(".reveal").forEach(el => {
+
+        const top = el.getBoundingClientRect().top;
+
+        if (top < window.innerHeight - 100) {
+            el.classList.add("active");
+        }
+
+    });
+
+}
+
+window.addEventListener("scroll", revealOnScroll);
+window.addEventListener("load", revealOnScroll);
