@@ -1,0 +1,1 @@
+<footer class="footer"><p>&copy; 2024 BV Assist: Campus Connect | College Management System</p></footer>
